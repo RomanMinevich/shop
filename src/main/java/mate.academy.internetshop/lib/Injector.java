@@ -9,16 +9,19 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.apache.log4j.Logger;
 
 public class Injector {
     private static final String PROJECT_MAIN_PACKAGE = "mate.academy.internetshop";
     private static final List<Class> classes = new ArrayList<>();
 
+    private static final Logger log = Logger.getLogger(Injector.class);
+
     static {
         try {
             classes.addAll(getClasses(PROJECT_MAIN_PACKAGE));
         } catch (ClassNotFoundException | IOException exception) {
-            exception.printStackTrace();
+            log.error("Dependency injection failed" + exception);
         }
     }
 

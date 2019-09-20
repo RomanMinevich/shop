@@ -10,6 +10,7 @@ import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Order;
 import mate.academy.internetshop.service.BucketService;
 import mate.academy.internetshop.service.OrderService;
+import org.apache.log4j.Logger;
 
 @WebServlet("/bucket")
 public class BucketController extends HttpServlet {
@@ -21,6 +22,8 @@ public class BucketController extends HttpServlet {
     private static final Long TEMP_BUCKET_ID = 0L;
     private static final Long TEMP_USER_ID = 0L;
 
+    private static final Logger log = Logger.getLogger(BucketController.class);
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -31,22 +34,21 @@ public class BucketController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String buttonId = request.getParameter("-");
-        String bigButton = request.getParameter("Complete order");
-        if (buttonId != null) {
-            bucketService.removeItem(TEMP_BUCKET_ID, Long.valueOf(buttonId));
-            System.out.println("Item removed from bucket");
+        String buttonRemove = request.getParameter("-");
+        String buttonComplete = request.getParameter("Complete order");
+        if (buttonRemove != null) {
+            bucketService.removeItem(TEMP_BUCKET_ID, Long.valueOf(buttonRemove));
+            log.info("Item removed from bucket");
             response.sendRedirect(request.getContextPath() + "/bucket");
         }
-        if (bigButton != null) {
-            if (Integer.parseInt(bigButton) > 0) {
+        if (buttonComplete != null) {
+            if (Integer.parseInt(buttonComplete) > 0) {
                 Order order = orderService.completeOrder(
                         bucketService.getAllItems(TEMP_BUCKET_ID), TEMP_USER_ID);
                 orderService.create(order);
-                System.out.println("Order completed");
+                log.info("Order completed");
                 response.sendRedirect(request.getContextPath() + "/orders");
             } else {
-                System.out.println("Bucket is empty");
                 response.sendRedirect(request.getContextPath() + "/bucket");
             }
         }

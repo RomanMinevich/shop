@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.service.OrderService;
 import mate.academy.internetshop.service.UserService;
+import org.apache.log4j.Logger;
 
 @WebServlet("/orders")
 public class OrderController extends HttpServlet {
@@ -18,6 +19,8 @@ public class OrderController extends HttpServlet {
     private static OrderService orderService;
 
     private static final Long TEMP_USER_ID = 0L;
+
+    private static final Logger log = Logger.getLogger(OrderController.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -29,10 +32,10 @@ public class OrderController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String buttonId = request.getParameter("-");
-        if (buttonId != null) {
-            orderService.deleteOrder(Long.valueOf(buttonId));
-            System.out.println("Order deleted");
+        String button = request.getParameter("-");
+        if (button != null) {
+            orderService.deleteOrder(Long.valueOf(button));
+            log.info("Order deleted");
             response.sendRedirect(request.getContextPath() + "/orders");
         }
     }

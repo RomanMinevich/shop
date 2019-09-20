@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.service.BucketService;
 import mate.academy.internetshop.service.ItemService;
+import org.apache.log4j.Logger;
 
 @WebServlet("/items")
 public class ItemController extends HttpServlet {
@@ -18,6 +19,8 @@ public class ItemController extends HttpServlet {
     private static BucketService bucketService;
 
     private static final Long TEMP_BUCKET_ID = 0L;
+
+    private static final Logger log = Logger.getLogger(ItemController.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -29,10 +32,10 @@ public class ItemController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String buttonId = request.getParameter("+");
-        if (buttonId != null) {
-            bucketService.addItem(TEMP_BUCKET_ID, Long.valueOf(buttonId));
-            System.out.println("Item added to bucket");
+        String button = request.getParameter("+");
+        if (button != null) {
+            bucketService.addItem(TEMP_BUCKET_ID, Long.valueOf(button));
+            log.info("Item added to bucket");
             response.sendRedirect(request.getContextPath() + "/items");
         }
     }

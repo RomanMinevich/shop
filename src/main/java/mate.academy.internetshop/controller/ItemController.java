@@ -23,7 +23,7 @@ public class ItemController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setAttribute("items", itemService.getAll());
-        request.getRequestDispatcher("/items.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/views/items.jsp").forward(request, response);
     }
 
     @Override

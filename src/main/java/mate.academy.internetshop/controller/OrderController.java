@@ -23,7 +23,7 @@ public class OrderController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setAttribute("orders", userService.get(TEMP_USER_ID).getOrders());
-        request.getRequestDispatcher("/orders.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/views/orders.jsp").forward(request, response);
     }
 
     @Override

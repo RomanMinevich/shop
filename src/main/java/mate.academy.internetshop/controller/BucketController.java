@@ -25,7 +25,7 @@ public class BucketController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setAttribute("items", bucketService.get(0L).getItems());
-        request.getRequestDispatcher("/bucket.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/views/bucket.jsp").forward(request, response);
     }
 
     @Override
@@ -35,6 +35,7 @@ public class BucketController extends HttpServlet {
         String bigButton = request.getParameter("Complete order");
         if (buttonId != null) {
             bucketService.removeItem(TEMP_BUCKET_ID, Long.valueOf(buttonId));
+            System.out.println("Item removed from bucket");
             response.sendRedirect(request.getContextPath() + "/bucket");
         }
         if (bigButton != null) {
@@ -45,6 +46,7 @@ public class BucketController extends HttpServlet {
                 System.out.println("Order completed");
                 response.sendRedirect(request.getContextPath() + "/orders");
             } else {
+                System.out.println("Bucket is empty");
                 response.sendRedirect(request.getContextPath() + "/bucket");
             }
         }

@@ -52,6 +52,7 @@ public class OrderServiceImpl implements OrderService {
         User user = userDao.get(order.getUserId());
         user.getOrders().remove(order);
         userDao.update(user);
+        delete(id);
         return order;
     }
 }

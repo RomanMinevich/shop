@@ -12,13 +12,13 @@
         <title>Orders</title>
     </head>
     <body>
-        <h1>Your orders:</h1>
+        <h1>User history of orders:</h1>
         <form action="orders" method="post">
             <table border="1">
                 <tr>
                     <th>ID</th>
                     <th>Items in order</th>
-                    <th>Remove from list</th>
+                    <th>Remove from history</th>
                 </tr>
                 <c:forEach var="order" items="${orders}">
                     <tr>
@@ -37,7 +37,7 @@
                                     </tr>
                                 </c:forEach>
                         </table></td>
-                        <td><button type="submit" name="-" value="${order.getId()}">-</button></td>
+                        <td><button type="submit" name="Remove" value="${order.getId()}">Remove</button></td>
                     </tr>
                 </c:forEach>
             </table>

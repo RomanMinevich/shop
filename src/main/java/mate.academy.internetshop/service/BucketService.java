@@ -20,5 +20,5 @@ public interface BucketService {
 
     Bucket clear(Long bucketId);
 
-    List<Item> getAllItems(Long bucketId);
+    List<Item> addAllItemsToOrder(Long bucketId);
 }

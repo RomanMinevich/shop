@@ -59,7 +59,7 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
-    public List getAllItems(Long id) {
+    public List addAllItemsToOrder(Long id) {
         List<Item> items = List.copyOf(get(id).getItems());
         clear(id);
         return items;

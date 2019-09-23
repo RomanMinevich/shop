@@ -26,7 +26,7 @@
                         <td><c:out value="${item.getId()}"/></td>
                         <td><c:out value="${item.getName()}"/></td>
                         <td><c:out value="${item.getPrice()}"/></td>
-                        <td><button type="submit" name="+" value="${item.getId()}">+</button></td>
+                        <td><button type="submit" name="Add" value="${item.getId()}">Add</button></td>
                     </tr>
                 </c:forEach>
             </table>

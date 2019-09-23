@@ -34,17 +34,17 @@ public class BucketController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String addItemsToOrder = request.getParameter("Complete order");
-        String removeItemFromBucket = request.getParameter("Remove");
-        if (addItemsToOrder != null && Integer.parseInt(addItemsToOrder) > 0) {
+        String itemsSize = request.getParameter("Complete order");
+        String itemId = request.getParameter("Remove");
+        if (itemsSize != null && Integer.parseInt(itemsSize) > 0) {
             Order order = orderService.completeOrder(
                     bucketService.addAllItemsToOrder(TEMP_BUCKET_ID), TEMP_USER_ID);
             orderService.create(order);
             log.info("Order completed");
             response.sendRedirect(request.getContextPath() + "/orders");
         } else {
-            if (removeItemFromBucket != null) {
-                bucketService.removeItem(TEMP_BUCKET_ID, Long.valueOf(removeItemFromBucket));
+            if (itemId != null) {
+                bucketService.removeItem(TEMP_BUCKET_ID, Long.valueOf(itemId));
                 log.info("Item removed from bucket");
             }
             response.sendRedirect(request.getContextPath() + "/bucket");

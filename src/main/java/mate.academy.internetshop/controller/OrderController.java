@@ -32,9 +32,9 @@ public class OrderController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String removeOrderFromHistory = request.getParameter("Remove");
-        if (removeOrderFromHistory != null) {
-            orderService.deleteOrder(Long.valueOf(removeOrderFromHistory));
+        String orderId = request.getParameter("Remove");
+        if (orderId != null) {
+            orderService.deleteOrder(Long.valueOf(orderId));
             log.info("Order deleted");
             response.sendRedirect(request.getContextPath() + "/orders");
         }

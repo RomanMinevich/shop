@@ -32,9 +32,9 @@ public class ItemController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String addItemToBucket = request.getParameter("Add");
-        if (addItemToBucket != null) {
-            bucketService.addItem(TEMP_BUCKET_ID, Long.valueOf(addItemToBucket));
+        String itemId = request.getParameter("Add");
+        if (itemId != null) {
+            bucketService.addItem(TEMP_BUCKET_ID, Long.valueOf(itemId));
             log.info("Item added to bucket");
             response.sendRedirect(request.getContextPath() + "/items");
         }

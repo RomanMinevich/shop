@@ -1,11 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: roman_minevich
-  Date: 9/19/19
-  Time: 6:07 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <head>
@@ -13,7 +6,7 @@
     </head>
     <body>
         <h1>Your bucket:</h1>
-        <form action="bucket" method="post">
+        <form action="http://localhost:8080/shop_war_exploded/servlet/bucket" method="post">
             <table border="1">
                 <tr>
                     <th>ID</th>
@@ -30,7 +23,8 @@
                     </tr>
                 </c:forEach>
             </table>
-                <button type="submit" name="Complete order" value="${items.size()}">Complete order</button>
+            <button type="submit" name="Complete order" value="${items.size()}">Complete order</button>
         </form>
+        <div>${errorMessage}</div>
     </body>
 </html>

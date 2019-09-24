@@ -1,8 +1,6 @@
 package mate.academy.internetshop.service;
 
-import java.util.List;
 import mate.academy.internetshop.model.Bucket;
-import mate.academy.internetshop.model.Item;
 
 public interface BucketService {
 
@@ -19,6 +17,4 @@ public interface BucketService {
     Bucket removeItem(Long bucketId, Long itemId);
 
     Bucket clear(Long bucketId);
-
-    List<Item> addAllItemsToOrder(Long bucketId);
 }

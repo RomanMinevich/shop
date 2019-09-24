@@ -11,22 +11,21 @@ import mate.academy.internetshop.service.OrderService;
 import mate.academy.internetshop.service.UserService;
 import org.apache.log4j.Logger;
 
-@WebServlet("/orders")
+@WebServlet("/servlet/orders")
 public class OrderController extends HttpServlet {
     @Inject
     private static UserService userService;
     @Inject
     private static OrderService orderService;
 
-    private static final Long TEMP_USER_ID = 0L;
-
     private static final Logger log = Logger.getLogger(OrderController.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("orders", userService.get(TEMP_USER_ID).getOrders());
-        request.getRequestDispatcher("WEB-INF/views/orders.jsp").forward(request, response);
+        Long userId = (Long)request.getSession(true).getAttribute("userId");
+        request.setAttribute("orders", userService.get(userId).getOrders());
+        request.getRequestDispatcher("/WEB-INF/views/orders.jsp").forward(request, response);
     }
 
     @Override
@@ -36,7 +35,7 @@ public class OrderController extends HttpServlet {
         if (orderId != null) {
             orderService.deleteOrder(Long.valueOf(orderId));
             log.info("Order deleted");
-            response.sendRedirect(request.getContextPath() + "/orders");
+            response.sendRedirect(request.getContextPath() + "/servlet/orders");
         }
     }
 }

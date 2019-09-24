@@ -28,11 +28,11 @@ public class Storage {
         Item herbs = new Item("Herbs", 200D);
         items.add(herbs);
 
-        User user = new User();
+        /*User user = new User();
         users.add(user);
 
         Bucket bucket = new Bucket(user.getId());
-        buckets.add(bucket);
+        buckets.add(bucket)*/
     }
 
 }

@@ -12,15 +12,12 @@ import mate.academy.internetshop.service.BucketService;
 import mate.academy.internetshop.service.OrderService;
 import org.apache.log4j.Logger;
 
-@WebServlet("/bucket")
+@WebServlet("/servlet/bucket")
 public class BucketController extends HttpServlet {
     @Inject
     private static BucketService bucketService;
     @Inject
     private static OrderService orderService;
-
-    private static final Long TEMP_BUCKET_ID = 0L;
-    private static final Long TEMP_USER_ID = 0L;
 
     private static final Logger log = Logger.getLogger(BucketController.class);
 
@@ -28,7 +25,7 @@ public class BucketController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setAttribute("items", bucketService.get(0L).getItems());
-        request.getRequestDispatcher("WEB-INF/views/bucket.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/bucket.jsp").forward(request, response);
     }
 
     @Override
@@ -36,18 +33,23 @@ public class BucketController extends HttpServlet {
             throws ServletException, IOException {
         String itemsSize = request.getParameter("Complete order");
         String itemId = request.getParameter("Remove");
-        if (itemsSize != null && Integer.parseInt(itemsSize) > 0) {
-            Order order = orderService.completeOrder(
-                    bucketService.addAllItemsToOrder(TEMP_BUCKET_ID), TEMP_USER_ID);
-            orderService.create(order);
-            log.info("Order completed");
-            response.sendRedirect(request.getContextPath() + "/orders");
-        } else {
-            if (itemId != null) {
-                bucketService.removeItem(TEMP_BUCKET_ID, Long.valueOf(itemId));
-                log.info("Item removed from bucket");
+        Long bucketId = (Long)request.getSession(true).getAttribute("userId");
+        if (itemsSize != null) {
+            if (Integer.parseInt(itemsSize) > 0) {
+                Order order = orderService.completeOrder(bucketId);
+                orderService.create(order);
+                log.info("Order completed");
+                response.sendRedirect(request.getContextPath() + "/servlet/orders");
+            } else {
+                request.setAttribute("errorMessage", "Bucket is empty");
+                request.getRequestDispatcher("/WEB-INF/views/bucket.jsp")
+                        .forward(request, response);
             }
-            response.sendRedirect(request.getContextPath() + "/bucket");
+        }
+        if (itemId != null) {
+            bucketService.removeItem(bucketId, Long.valueOf(itemId));
+            log.info("Item removed from bucket");
+            response.sendRedirect(request.getContextPath() + "/servlet/bucket");
         }
     }
 }

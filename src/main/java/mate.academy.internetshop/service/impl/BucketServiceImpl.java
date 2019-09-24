@@ -1,6 +1,5 @@
 package mate.academy.internetshop.service.impl;
 
-import java.util.List;
 import mate.academy.internetshop.dao.BucketDao;
 import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.lib.Inject;
@@ -56,12 +55,5 @@ public class BucketServiceImpl implements BucketService {
         Bucket bucket = get(id);
         bucket.getItems().clear();
         return update(bucket);
-    }
-
-    @Override
-    public List addAllItemsToOrder(Long id) {
-        List<Item> items = List.copyOf(get(id).getItems());
-        clear(id);
-        return items;
     }
 }

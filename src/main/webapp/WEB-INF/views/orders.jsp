@@ -22,13 +22,13 @@
                                 <th>Name</th>
                                 <th>Price</th>
                             </tr>
-                                <c:forEach var="item" items="${order.getItems()}">
-                                    <tr>
-                                        <td><c:out value="${item.getId()}"/></td>
-                                        <td><c:out value="${item.getName()}"/></td>
-                                        <td><c:out value="${item.getPrice()}"/></td>
-                                    </tr>
-                                </c:forEach>
+                            <c:forEach var="item" items="${order.getItems()}">
+                                <tr>
+                                    <td><c:out value="${item.getId()}"/></td>
+                                    <td><c:out value="${item.getName()}"/></td>
+                                    <td><c:out value="${item.getPrice()}"/></td>
+                                </tr>
+                            </c:forEach>
                         </table></td>
                         <td><button type="submit" name="Remove" value="${order.getId()}">Remove</button></td>
                     </tr>

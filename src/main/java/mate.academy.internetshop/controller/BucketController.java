@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import mate.academy.internetshop.lib.Inject;
-import mate.academy.internetshop.model.Order;
 import mate.academy.internetshop.service.BucketService;
 import mate.academy.internetshop.service.OrderService;
 import org.apache.log4j.Logger;
@@ -38,8 +37,7 @@ public class BucketController extends HttpServlet {
         String itemId = request.getParameter("Remove");
         if (itemsSize != null) {
             if (Integer.parseInt(itemsSize) > 0) {
-                Order order = orderService.completeOrder(bucketId);
-                orderService.create(order);
+                orderService.completeOrder(bucketId);
                 log.info("Order completed");
                 response.sendRedirect(request.getContextPath() + "/servlet/orders");
             } else {

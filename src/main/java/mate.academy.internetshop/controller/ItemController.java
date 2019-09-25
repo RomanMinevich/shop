@@ -31,10 +31,11 @@ public class ItemController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String itemId = request.getParameter("itemId");
-        Long bucketId = (Long)request.getSession(true).getAttribute("userId");
+        Long userId = (Long)request.getSession(true).getAttribute("userId");
         if (itemId != null) {
-            if (bucketId != null) {
-                bucketService.addItem(bucketId, Long.valueOf(itemId));
+            if (userId != null) {
+                bucketService.addItem(
+                        bucketService.getByUserId(userId).getId(), Long.valueOf(itemId));
                 log.info("Item added to bucket");
                 response.sendRedirect(request.getContextPath() + "/items");
             } else {

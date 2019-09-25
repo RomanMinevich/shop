@@ -19,17 +19,13 @@ public class BucketController extends HttpServlet {
     @Inject
     private static OrderService orderService;
 
-    private Long userId;
-    private Bucket bucket;
-
     private static final Logger log = Logger.getLogger(BucketController.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        userId = (Long)request.getSession(true).getAttribute("userId");
-        bucket = bucketService.getByUserId(userId);
-        request.setAttribute("items", bucket.getItems());
+        Long userId = (Long)request.getSession(true).getAttribute("userId");
+        request.setAttribute("items", bucketService.getByUserId(userId).getItems());
         request.getRequestDispatcher("/WEB-INF/views/bucket.jsp").forward(request, response);
     }
 
@@ -38,6 +34,8 @@ public class BucketController extends HttpServlet {
             throws ServletException, IOException {
         String itemsSize = request.getParameter("itemsSize");
         String itemId = request.getParameter("itemId");
+        Long userId = (Long)request.getSession(true).getAttribute("userId");
+        Bucket bucket = bucketService.getByUserId(userId);
         if (itemsSize != null) {
             if (Integer.parseInt(itemsSize) > 0) {
                 orderService.completeOrder(bucketService.addItemsToOrder(bucket.getId()), userId);

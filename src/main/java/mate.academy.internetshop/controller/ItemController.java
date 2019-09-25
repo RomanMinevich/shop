@@ -30,7 +30,7 @@ public class ItemController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String itemId = request.getParameter("Add");
+        String itemId = request.getParameter("itemId");
         Long bucketId = (Long)request.getSession(true).getAttribute("userId");
         if (itemId != null) {
             if (bucketId != null) {

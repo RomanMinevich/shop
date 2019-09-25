@@ -19,11 +19,11 @@
                         <td><c:out value="${item.getId()}"/></td>
                         <td><c:out value="${item.getName()}"/></td>
                         <td><c:out value="${item.getPrice()}"/></td>
-                        <td><button type="submit" name="Remove" value="${item.getId()}">Remove</button></td>
+                        <td><button type="submit" name="itemId" value="${item.getId()}">Remove</button></td>
                     </tr>
                 </c:forEach>
             </table>
-            <button type="submit" name="Complete order" value="${items.size()}">Complete order</button>
+            <button type="submit" name="itemsSize" value="${items.size()}">Complete order</button>
         </form>
         <div>${errorMessage}</div>
     </body>

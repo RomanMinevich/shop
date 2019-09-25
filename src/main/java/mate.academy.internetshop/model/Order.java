@@ -8,9 +8,9 @@ public class Order {
     private final Long userId;
     private final List<Item> items;
 
-    public Order(List<Item> items, Long bucketId) {
+    public Order(List<Item> items, Long userId) {
         this.id = OrderIdGenerator.generateId();
-        this.userId = bucketId;
+        this.userId = userId;
         this.items = items;
     }
 

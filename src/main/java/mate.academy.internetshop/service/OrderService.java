@@ -1,5 +1,7 @@
 package mate.academy.internetshop.service;
 
+import java.util.List;
+import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.model.Order;
 
 public interface OrderService {
@@ -12,7 +14,7 @@ public interface OrderService {
 
     Order delete(Long id);
 
-    Order completeOrder(Long bucketId);
+    Order completeOrder(List<Item> items, Long bucketId);
 
     Order deleteOrder(Long id);
 }

@@ -37,10 +37,12 @@ public class RegistrationController extends HttpServlet {
         user.setEmail(request.getParameter("Email"));
         user.setPhoneNumber(request.getParameter("Phone number"));
         user.setPassword(request.getParameter("Password"));
+        Bucket bucket = new Bucket(user.getId());
+        bucketService.create(bucket);
+        log.info("Bucket created");
+        user.setBucketId(bucket.getId());
         userService.create(user);
         log.info("User registered");
-        bucketService.create(new Bucket(user.getId()));
-        log.info("Bucket created");
         response.sendRedirect(request.getContextPath() + "/login");
     }
 }

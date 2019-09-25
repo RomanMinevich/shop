@@ -49,4 +49,14 @@ public class BucketDaoImpl implements BucketDao {
         Storage.buckets.removeIf(element -> element.equals(bucket));
         return bucket;
     }
+
+    @Override
+    public Bucket getByUserId(Long userId) {
+        return Storage.buckets
+                .stream()
+                .filter(element -> element.getUserId().equals(userId))
+                .findAny()
+                .orElseThrow(() ->
+                        new NoSuchElementException("Can't find bucket with userId " + userId));
+    }
 }

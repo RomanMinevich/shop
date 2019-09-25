@@ -8,8 +8,9 @@ import mate.academy.internetshop.generator.UserIdGenerator;
 
 public class User {
     private final Long id;
-    private final String token;
+    private Long bucketId;
     private final List<Order> orders;
+    private final String token;
     private String phoneNumber;
     private String password;
     private String firstName;
@@ -27,12 +28,20 @@ public class User {
         return id;
     }
 
-    public String getToken() {
-        return token;
+    public Long getBucketId() {
+        return bucketId;
+    }
+
+    public void setBucketId(Long bucketId) {
+        this.bucketId = bucketId;
     }
 
     public List<Order> getOrders() {
         return orders;
+    }
+
+    public String getToken() {
+        return token;
     }
 
     public String getEmail() {

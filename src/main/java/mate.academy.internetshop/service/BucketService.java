@@ -14,11 +14,13 @@ public interface BucketService {
 
     Bucket delete(Long id);
 
+    Bucket getByUserId(Long userId);
+
     Bucket addItem(Long bucketId, Long itemId);
 
     Bucket removeItem(Long bucketId, Long itemId);
 
     Bucket clear(Long bucketId);
 
-    List<Item> addAllItemsToOrder(Long bucketId);
+    List<Item> addItemsToOrder(Long id);
 }

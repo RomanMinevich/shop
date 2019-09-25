@@ -27,12 +27,5 @@ public class Storage {
         items.add(mushrooms);
         Item herbs = new Item("Herbs", 200D);
         items.add(herbs);
-
-        User user = new User();
-        users.add(user);
-
-        Bucket bucket = new Bucket(user.getId());
-        buckets.add(bucket);
     }
-
 }

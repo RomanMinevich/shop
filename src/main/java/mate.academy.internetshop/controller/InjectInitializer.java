@@ -12,7 +12,7 @@ public class InjectInitializer implements ServletContextListener {
     private static final Logger log = Logger.getLogger(InjectInitializer.class);
 
     @Override
-    public void contextInitialized(ServletContextEvent sce) {
+    public void contextInitialized(ServletContextEvent event) {
 
         try {
             log.info("Dependency injection started");
@@ -24,7 +24,7 @@ public class InjectInitializer implements ServletContextListener {
     }
 
     @Override
-    public void contextDestroyed(ServletContextEvent servletContextEvent) {
+    public void contextDestroyed(ServletContextEvent event) {
 
     }
 }

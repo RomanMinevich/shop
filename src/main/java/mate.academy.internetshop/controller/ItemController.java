@@ -18,25 +18,29 @@ public class ItemController extends HttpServlet {
     @Inject
     private static BucketService bucketService;
 
-    private static final Long TEMP_BUCKET_ID = 0L;
-
     private static final Logger log = Logger.getLogger(ItemController.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setAttribute("items", itemService.getAll());
-        request.getRequestDispatcher("WEB-INF/views/items.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/items.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String itemId = request.getParameter("Add");
+        String itemId = request.getParameter("itemId");
+        Long userId = (Long)request.getSession(true).getAttribute("userId");
         if (itemId != null) {
-            bucketService.addItem(TEMP_BUCKET_ID, Long.valueOf(itemId));
-            log.info("Item added to bucket");
-            response.sendRedirect(request.getContextPath() + "/items");
+            if (userId != null) {
+                bucketService.addItem(
+                        bucketService.getByUserId(userId).getId(), Long.valueOf(itemId));
+                log.info("Item added to bucket");
+                response.sendRedirect(request.getContextPath() + "/items");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/login");
+            }
         }
     }
 }

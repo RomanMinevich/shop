@@ -5,6 +5,7 @@ import java.util.List;
 import mate.academy.internetshop.model.Bucket;
 import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.model.Order;
+import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 
 public class Storage {
@@ -27,5 +28,19 @@ public class Storage {
         items.add(mushrooms);
         Item herbs = new Item("Herbs", 200D);
         items.add(herbs);
+
+        User user = new User();
+        user.setPhoneNumber("0");
+        user.setPassword("0");
+        user.addRole(new Role("USER"));
+        users.add(user);
+
+        User admin = new User();
+        admin.setPhoneNumber("25");
+        admin.setPassword("01");
+        admin.setFirstName("Misha");
+        admin.setLastName("T");
+        admin.addRole(new Role("ADMIN"));
+        users.add(admin);
     }
 }

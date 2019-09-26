@@ -2,6 +2,7 @@ package mate.academy.internetshop.dao.impl;
 
 import static java.util.stream.IntStream.range;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import mate.academy.internetshop.dao.Storage;
@@ -70,5 +71,10 @@ public class UserDaoImpl implements UserDao {
                 .stream()
                 .filter(element -> element.getToken().equals(token))
                 .findAny();
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return Storage.users;
     }
 }

@@ -25,7 +25,7 @@
                         <td><c:out value="${user.getEmail()}"/></td>
                         <td><c:out value="${user.getFirstName()} ${user.getLastname()}"/></td>
                         <td><c:out value="${user.shippingAddress()}"/></td>
-                    <table border="1">
+                    <td><table border="1">
                     <tr>
                     <th>ID</th>
                     <th>Items in order</th>
@@ -47,6 +47,8 @@
                                     </tr>
                                 </c:forEach>
                             </table></td>
+                            </c:forEach>
+                    </table></td>
                     </tr>
                 </c:forEach>
             </table>

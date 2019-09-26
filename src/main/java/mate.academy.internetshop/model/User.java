@@ -1,14 +1,16 @@
 package mate.academy.internetshop.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
-
 import mate.academy.internetshop.generator.UserIdGenerator;
 
 public class User {
     private final Long id;
     private Long bucketId;
+    private final Set<Role> roles;
     private final List<Order> orders;
     private final String token;
     private String phoneNumber;
@@ -21,6 +23,7 @@ public class User {
     public User() {
         this.id = UserIdGenerator.generateId();
         this.token = UUID.randomUUID().toString();
+        this.roles = new HashSet<>();
         this.orders = new ArrayList<>();
     }
 
@@ -34,6 +37,14 @@ public class User {
 
     public void setBucketId(Long bucketId) {
         this.bucketId = bucketId;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void addRole(Role role) {
+        roles.add(role);
     }
 
     public List<Order> getOrders() {

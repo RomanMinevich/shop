@@ -36,11 +36,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Order> getOrders(Long id) {
-        return get(id).getOrders();
-    }
-
-    @Override
     public User login(String phoneNumber, String password) throws AuthenticationException {
         return userDao.login(phoneNumber, password);
     }
@@ -48,5 +43,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getByToken(String token) {
         return userDao.getByToken(token);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userDao.getAllUsers();
+    }
+
+    @Override
+    public List<Order> getOrders(Long id) {
+        return get(id).getOrders();
     }
 }

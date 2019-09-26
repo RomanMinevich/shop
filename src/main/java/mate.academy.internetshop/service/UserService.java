@@ -16,9 +16,11 @@ public interface UserService {
 
     User delete(Long id);
 
-    List<Order> getOrders(Long userId);
-
     User login(String phoneNumber, String password) throws AuthenticationException;
 
     Optional<User> getByToken(String token);
+
+    List<User> getAllUsers();
+
+    List<Order> getOrders(Long userId);
 }

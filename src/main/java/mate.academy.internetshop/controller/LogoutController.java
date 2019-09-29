@@ -3,7 +3,6 @@ package mate.academy.internetshop.controller;
 import static java.util.stream.Stream.of;
 
 import java.io.IOException;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +16,7 @@ public class LogoutController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws IOException {
         log.info(
                 "User " + request.getSession(true).getAttribute("userId") + " is logged out");
         of(request.getCookies())

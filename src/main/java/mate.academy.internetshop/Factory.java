@@ -1,13 +1,16 @@
 package mate.academy.internetshop;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import mate.academy.internetshop.dao.BucketDao;
 import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.dao.impl.BucketDaoImpl;
-import mate.academy.internetshop.dao.impl.ItemDaoImpl;
 import mate.academy.internetshop.dao.impl.OrderDaoImpl;
 import mate.academy.internetshop.dao.impl.UserDaoImpl;
+import mate.academy.internetshop.dao.jdbc.ItemDaoJdbcImpl;
 import mate.academy.internetshop.service.BucketService;
 import mate.academy.internetshop.service.ItemService;
 import mate.academy.internetshop.service.OrderService;
@@ -16,6 +19,7 @@ import mate.academy.internetshop.service.impl.BucketServiceImpl;
 import mate.academy.internetshop.service.impl.ItemServiceImpl;
 import mate.academy.internetshop.service.impl.OrderServiceImpl;
 import mate.academy.internetshop.service.impl.UserServiceImpl;
+import org.apache.log4j.Logger;
 
 public class Factory {
     private static ItemDao itemDao;
@@ -26,10 +30,24 @@ public class Factory {
     private static BucketService bucketService;
     private static OrderService orderService;
     private static UserService userService;
+    private static Connection connection;
+    private static final Logger log = Logger.getLogger(Factory.class);
+
+    static {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/Shop?"
+                            + "user=root&password=me930528&serverTimezone=UTC");
+            log.info("Connected to database");
+        } catch (ClassNotFoundException | SQLException exception) {
+            log.error("Connection to database failed");
+        }
+    }
 
     public static ItemDao getItemDao() {
         if (itemDao == null) {
-            itemDao = new ItemDaoImpl();
+            itemDao = new ItemDaoJdbcImpl(connection);
         }
         return itemDao;
     }

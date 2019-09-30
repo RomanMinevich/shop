@@ -20,15 +20,6 @@ public class Storage {
         orders = new ArrayList<>();
         users = new ArrayList<>();
 
-        Item salt = new Item("Salt", 300D);
-        items.add(salt);
-        Item spice = new Item("Spice", 250D);
-        items.add(spice);
-        Item mushrooms = new Item("Mushrooms", 400D);
-        items.add(mushrooms);
-        Item herbs = new Item("Herbs", 200D);
-        items.add(herbs);
-
         User user = new User();
         user.setPhoneNumber("0");
         user.setPassword("0");

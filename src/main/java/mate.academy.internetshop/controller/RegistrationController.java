@@ -29,7 +29,7 @@ public class RegistrationController extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws IOException {
         User user = new User();
         user.setFirstName(request.getParameter("First name"));
         user.setLastName(request.getParameter("Last name"));

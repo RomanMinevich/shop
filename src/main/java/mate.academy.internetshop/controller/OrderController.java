@@ -30,7 +30,7 @@ public class OrderController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws IOException {
         String orderId = request.getParameter("Remove");
         if (orderId != null) {
             orderService.deleteOrder(Long.valueOf(orderId));

@@ -1,12 +1,13 @@
 package mate.academy.internetshop.service.impl;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
+import mate.academy.internetshop.dao.RoleDao;
 import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.exception.AuthenticationException;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Service;
-import mate.academy.internetshop.model.Order;
+import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
 
@@ -14,6 +15,8 @@ import mate.academy.internetshop.service.UserService;
 public class UserServiceImpl implements UserService {
     @Inject
     private static UserDao userDao;
+    @Inject
+    private static RoleDao roleDao;
 
     @Override
     public User create(User user) {
@@ -36,22 +39,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Set<Role> getUserRoles(Long id) {
+        return roleDao.getUserRoles(id);
+    }
+
+    @Override
     public User login(String phoneNumber, String password) throws AuthenticationException {
         return userDao.login(phoneNumber, password);
     }
 
     @Override
-    public Optional<User> getByToken(String token) {
+    public User getByToken(String token) {
         return userDao.getByToken(token);
     }
 
     @Override
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
-    }
-
-    @Override
-    public List<Order> getOrders(Long id) {
-        return get(id).getOrders();
     }
 }

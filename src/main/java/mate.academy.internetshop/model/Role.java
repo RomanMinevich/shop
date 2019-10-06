@@ -1,25 +1,23 @@
 package mate.academy.internetshop.model;
 
-import mate.academy.internetshop.generator.RoleIdGenerator;
-
 public class Role {
-    private final Long roleId;
-    private final RoleName roleName;
+    private Long id;
+    private final RoleName name;
 
-    public Role(String roleName) {
-        this.roleId = RoleIdGenerator.generateId();
-        this.roleName = RoleName.valueOf(roleName);
+    public Role(Long id, RoleName name) {
+        this.id = id;
+        this.name = name;
     }
 
-    public Long getRoleId() {
-        return roleId;
+    public Long getId() {
+        return id;
     }
 
-    public RoleName getRoleName() {
-        return roleName;
+    public RoleName getName() {
+        return name;
     }
 
     public enum RoleName {
-        USER, ADMIN
+     USER, ADMIN;
     }
 }

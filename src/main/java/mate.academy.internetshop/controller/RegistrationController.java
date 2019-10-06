@@ -1,5 +1,7 @@
 package mate.academy.internetshop.controller;
 
+import static java.lang.String.format;
+
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,18 +33,16 @@ public class RegistrationController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         User user = new User();
-        user.setFirstName(request.getParameter("First name"));
-        user.setLastName(request.getParameter("Last name"));
-        user.setShippingAddress(request.getParameter("Shipping address"));
+        user.setName(format("%s %s",
+                request.getParameter("First name"), request.getParameter("Last name")));
+        user.setAddress(request.getParameter("Shipping address"));
         user.setEmail(request.getParameter("Email"));
         user.setPhoneNumber(request.getParameter("Phone number"));
         user.setPassword(request.getParameter("Password"));
-        Bucket bucket = new Bucket(user.getId());
-        bucketService.create(bucket);
-        log.info("Bucket created");
-        user.setBucketId(bucket.getId());
         userService.create(user);
         log.info("User registered");
+        bucketService.create(new Bucket(user.getId()));
+        log.info("Bucket created");
         response.sendRedirect(request.getContextPath() + "/login");
     }
 }

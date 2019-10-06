@@ -24,10 +24,8 @@ import org.apache.log4j.Logger;
 public class AuthorizationFilter implements Filter {
     @Inject
     private static UserService userService;
-
-    private static final Logger log = Logger.getLogger(AuthorizationFilter.class);
-
     private Map<String, Role.RoleName> urls = new HashMap<>();
+    private static final Logger log = Logger.getLogger(AuthorizationFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -62,9 +60,9 @@ public class AuthorizationFilter implements Filter {
         Role.RoleName validRoleName = urls.get(
                 request.getRequestURI().replace(request.getContextPath(), ""));
         return validRoleName == null
-                || userService.get(userId).getRoles()
+                || userService.getUserRoles(userId)
                 .stream()
-                .anyMatch(role -> role.getRoleName().equals(validRoleName));
+                .anyMatch(role -> role.getName().equals(validRoleName));
     }
 
     @Override

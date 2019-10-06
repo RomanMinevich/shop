@@ -23,7 +23,7 @@
                         <td><c:out value="${user.getRoles()}"/></td>
                         <td><c:out value="${user.getPhoneNumber()}"/></td>
                         <td><c:out value="${user.getEmail()}"/></td>
-                        <td><c:out value="${user.getFirstName()} ${user.getLastname()}"/></td>
+                        <td><c:out value="${user.getName()}"/></td>
                         <td><c:out value="${user.shippingAddress()}"/></td>
                     <td><table border="1">
                     <tr>

@@ -10,11 +10,7 @@ public interface BucketService {
 
     Bucket get(Long id);
 
-    Bucket update(Bucket bucket);
-
     Bucket delete(Long id);
-
-    Bucket getByUserId(Long userId);
 
     Bucket addItem(Long bucketId, Long itemId);
 

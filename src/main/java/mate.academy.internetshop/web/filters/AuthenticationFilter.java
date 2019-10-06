@@ -23,7 +23,6 @@ import org.apache.log4j.Logger;
 public class AuthenticationFilter implements Filter {
     @Inject
     private static UserService userService;
-
     private static final Logger log = Logger.getLogger(AuthenticationFilter.class);
 
     @Override
@@ -37,12 +36,7 @@ public class AuthenticationFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest)filterRequest;
         HttpServletResponse response = (HttpServletResponse)filterResponse;
-        Optional<User> user = of(request.getCookies())
-                .filter(cookie -> cookie.getName().equals("MATE"))
-                .map(Cookie::getValue)
-                .map(value -> userService.getByToken(value))
-                .findAny()
-                .get();
+        Optional<User> user = getUser(request);
         if (user.isPresent()) {
             log.info("User " + user.get().getId() + " was authenticated");
             chain.doFilter(filterRequest,filterResponse);
@@ -50,6 +44,14 @@ public class AuthenticationFilter implements Filter {
             log.info("User was not authenticated");
             response.sendRedirect(request.getContextPath() + "/login");
         }
+    }
+
+    private Optional<User> getUser(HttpServletRequest request) {
+        return of(request.getCookies())
+                .filter(cookie -> cookie.getName().equals("MATE"))
+                .map(Cookie::getValue)
+                .map(value -> userService.getByToken(value))
+                .findAny();
     }
 
     @Override

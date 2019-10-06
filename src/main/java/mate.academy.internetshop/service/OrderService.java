@@ -6,7 +6,7 @@ import mate.academy.internetshop.model.Order;
 
 public interface OrderService {
 
-    Order create(Order order);
+    Order complete(Long userId, List<Item> items);
 
     Order get(Long id);
 
@@ -14,7 +14,6 @@ public interface OrderService {
 
     Order delete(Long id);
 
-    Order completeOrder(List<Item> items, Long bucketId);
+    List<Order> getUserOrders(Long userId);
 
-    Order deleteOrder(Long id);
 }

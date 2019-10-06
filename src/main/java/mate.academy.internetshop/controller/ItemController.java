@@ -35,7 +35,7 @@ public class ItemController extends HttpServlet {
         if (itemId != null) {
             if (userId != null) {
                 bucketService.addItem(
-                        bucketService.getByUserId(userId).getId(), Long.valueOf(itemId));
+                        bucketService.get(userId).getId(), Long.valueOf(itemId));
                 log.info("Item added to bucket");
                 response.sendRedirect(request.getContextPath() + "/items");
             } else {

@@ -8,13 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.service.OrderService;
-import mate.academy.internetshop.service.UserService;
 import org.apache.log4j.Logger;
 
 @WebServlet("/servlet/orders")
 public class OrderController extends HttpServlet {
-    @Inject
-    private static UserService userService;
     @Inject
     private static OrderService orderService;
 
@@ -24,7 +21,7 @@ public class OrderController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Long userId = (Long)request.getSession(true).getAttribute("userId");
-        request.setAttribute("orders", userService.getOrders(userId));
+        request.setAttribute("orders", orderService.getUserOrders(userId));
         request.getRequestDispatcher("/WEB-INF/views/orders.jsp").forward(request, response);
     }
 
@@ -33,7 +30,7 @@ public class OrderController extends HttpServlet {
             throws IOException {
         String orderId = request.getParameter("Remove");
         if (orderId != null) {
-            orderService.deleteOrder(Long.valueOf(orderId));
+            orderService.delete(Long.valueOf(orderId));
             log.info("Order deleted");
             response.sendRedirect(request.getContextPath() + "/servlet/orders");
         }

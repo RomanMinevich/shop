@@ -25,7 +25,7 @@ public class UserDaoJdbcImpl extends AbstractDao implements UserDao {
         try (PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO users ("
                         + "token, phone_number, password, name, adress, email) VALUES ("
-                        + "?, ?, ?, ?, ?, ?)", new String[]{"id"})) {
+                        + "?, ?, ?, ?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, user.getToken());
             statement.setString(2, user.getPhoneNumber());
             statement.setString(3, user.getPassword());
@@ -34,7 +34,7 @@ public class UserDaoJdbcImpl extends AbstractDao implements UserDao {
             statement.setString(6, user.getEmail());
             statement.executeUpdate();
             ///
-            user.setId(statement.getGeneratedKeys().getLong("id"));
+            user.setId(statement.getGeneratedKeys().getLong(1));
             statement.executeUpdate("INSERT INTO users_roles (user_id) VALUE (?)");
             statement.setLong(1, user.getId());
         } catch (SQLException exception) {

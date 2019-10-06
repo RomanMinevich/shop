@@ -23,12 +23,13 @@ public class OrderDaoJdbcImpl extends AbstractDao implements OrderDao {
     @Override
     public Order create(Order order) {
         try (PreparedStatement statement = connection.prepareStatement(
-                "INSERT INTO orders (user_id) VALUE ?", new String[]{"id"})) {
+                "INSERT INTO orders (user_id) VALUE (?)",
+                PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setLong(1, order.getUserId());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
-                order.setId(resultSet.getLong("id"));
+                order.setId(resultSet.getLong(1));
             }
         } catch (SQLException exception) {
             log.error("Couldn't create an order");

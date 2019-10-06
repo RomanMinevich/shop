@@ -22,13 +22,14 @@ public class ItemDaoJdbcImpl extends AbstractDao implements ItemDao {
     @Override
     public Item create(Item item) {
         try (PreparedStatement statement = connection.prepareStatement(
-                "INSERT INTO items (name, price) VALUES (?, ?)", new String[]{"id"})) {
+                "INSERT INTO items (name, price) VALUES (?, ?)",
+                PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, item.getName());
             statement.setDouble(2, item.getPrice());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
-                item.setId(resultSet.getLong("id"));
+                item.setId(resultSet.getLong(1));
             }
         } catch (SQLException exception) {
             log.error("Couldn't create an item");

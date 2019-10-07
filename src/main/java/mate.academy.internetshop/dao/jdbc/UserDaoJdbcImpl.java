@@ -27,7 +27,7 @@ public class UserDaoJdbcImpl extends AbstractDao implements UserDao {
     public User create(User user) {
         try (PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO users ("
-                        + "token, salt, phone_number, password, name, adress, email) VALUES ("
+                        + "token, salt, phone_number, password, name, address, email) VALUES ("
                         + "?, ?, ?, ?, ?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, user.getToken());
             statement.setBytes(2, user.getSalt());
@@ -124,7 +124,7 @@ public class UserDaoJdbcImpl extends AbstractDao implements UserDao {
         }
         try (PreparedStatement statement = connection.prepareStatement(
                 "SELECT id FROM users WHERE password = ?")) {
-            statement.setString(2, hashPassword(salt, password));
+            statement.setString(1, hashPassword(salt, password));
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 id = resultSet.getLong("id");

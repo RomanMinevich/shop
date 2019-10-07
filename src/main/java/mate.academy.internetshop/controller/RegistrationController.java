@@ -35,7 +35,8 @@ public class RegistrationController extends HttpServlet {
             throws IOException {
         User user = new User();
         user.setName(format("%s %s",
-                request.getParameter("First name"), request.getParameter("Last name")));
+                request.getParameter("First name"), request.getParameter("Last name"))
+                .trim());
         user.setAddress(request.getParameter("Shipping address"));
         user.setEmail(request.getParameter("Email"));
         user.setPhoneNumber(request.getParameter("Phone number"));

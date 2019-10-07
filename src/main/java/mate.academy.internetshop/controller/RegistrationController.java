@@ -1,6 +1,7 @@
 package mate.academy.internetshop.controller;
 
 import static java.lang.String.format;
+import static mate.academy.internetshop.util.HashUtil.hashPassword;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -34,11 +35,13 @@ public class RegistrationController extends HttpServlet {
             throws IOException {
         User user = new User();
         user.setName(format("%s %s",
-                request.getParameter("First name"), request.getParameter("Last name")));
+                request.getParameter("First name"), request.getParameter("Last name"))
+                .trim());
         user.setAddress(request.getParameter("Shipping address"));
         user.setEmail(request.getParameter("Email"));
         user.setPhoneNumber(request.getParameter("Phone number"));
-        user.setPassword(request.getParameter("Password"));
+        user.setPassword(hashPassword(
+                user.getSalt(), request.getParameter("Password")));
         userService.create(user);
         log.info("User registered");
         bucketService.create(new Bucket(user.getId()));

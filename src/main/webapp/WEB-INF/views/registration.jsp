@@ -16,7 +16,7 @@
             <label><b>Last name</b></label>
             <input type="text" placeholder="" name="Last name">
             <label><b>Shipping address</b></label>
-            <input type="text" placeholder="" name="shipping address">
+            <input type="text" placeholder="" name="Shipping address">
             <label><b>Email</b></label>
             <input type="text" placeholder="" name="Email">
             <button type="submit">Register</button>

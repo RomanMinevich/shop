@@ -10,8 +10,8 @@
             <table border="1">
                 <tr>
                     <th>ID</th>
-                    <th>Items in order</th>
-                    <th>Remove from history</th>
+                    <th>Ordered items</th>
+                    <th>Cancel an order</th>
                 </tr>
                 <c:forEach var="order" items="${orders}">
                     <tr>

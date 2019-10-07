@@ -1,66 +1,38 @@
 package mate.academy.internetshop.model;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import mate.academy.internetshop.generator.UserIdGenerator;
 
 public class User {
-    private final Long id;
-    private Long bucketId;
-    private final Set<Role> roles;
-    private final List<Order> orders;
-    private final String token;
+    private Long id;
+    private String token;
     private String phoneNumber;
     private String password;
-    private String firstName;
-    private String lastName;
-    private String shippingAddress;
+    private String name;
+    private String address;
     private String email;
+    private final Set<Role> roles;
 
     public User() {
-        this.id = UserIdGenerator.generateId();
         this.token = UUID.randomUUID().toString();
         this.roles = new HashSet<>();
-        this.orders = new ArrayList<>();
     }
 
     public Long getId() {
         return id;
     }
 
-    public Long getBucketId() {
-        return bucketId;
-    }
-
-    public void setBucketId(Long bucketId) {
-        this.bucketId = bucketId;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void addRole(Role role) {
-        roles.add(role);
-    }
-
-    public List<Order> getOrders() {
-        return orders;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getToken() {
         return token;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getPhoneNumber() {
@@ -79,27 +51,31 @@ public class User {
         this.password = password;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getAddress() {
+        return address;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getShippingAddress() {
-        return shippingAddress;
+    public String getEmail() {
+        return email;
     }
 
-    public void setShippingAddress(String shippingAddress) {
-        this.shippingAddress = shippingAddress;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
     }
 }

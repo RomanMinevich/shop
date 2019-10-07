@@ -38,7 +38,7 @@ public class BucketController extends HttpServlet {
         Bucket bucket = bucketService.getByUserId(userId);
         if (itemsSize != null) {
             if (Integer.parseInt(itemsSize) > 0) {
-                orderService.completeOrder(bucketService.addItemsToOrder(bucket.getId()), userId);
+                orderService.complete(userId, bucketService.addItemsToOrder(bucket.getId()));
                 log.info("Order completed");
                 response.sendRedirect(request.getContextPath() + "/servlet/orders");
             } else {

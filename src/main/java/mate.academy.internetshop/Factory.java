@@ -3,21 +3,26 @@ package mate.academy.internetshop;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
 import mate.academy.internetshop.dao.BucketDao;
 import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.dao.OrderDao;
+import mate.academy.internetshop.dao.RoleDao;
 import mate.academy.internetshop.dao.UserDao;
-import mate.academy.internetshop.dao.impl.BucketDaoImpl;
-import mate.academy.internetshop.dao.impl.OrderDaoImpl;
-import mate.academy.internetshop.dao.impl.UserDaoImpl;
+import mate.academy.internetshop.dao.jdbc.BucketDaoJdbcImpl;
 import mate.academy.internetshop.dao.jdbc.ItemDaoJdbcImpl;
+import mate.academy.internetshop.dao.jdbc.OrderDaoJdbcImpl;
+import mate.academy.internetshop.dao.jdbc.RoleDaoJdbcImpl;
+import mate.academy.internetshop.dao.jdbc.UserDaoJdbcImpl;
 import mate.academy.internetshop.service.BucketService;
 import mate.academy.internetshop.service.ItemService;
 import mate.academy.internetshop.service.OrderService;
+import mate.academy.internetshop.service.RoleService;
 import mate.academy.internetshop.service.UserService;
 import mate.academy.internetshop.service.impl.BucketServiceImpl;
 import mate.academy.internetshop.service.impl.ItemServiceImpl;
 import mate.academy.internetshop.service.impl.OrderServiceImpl;
+import mate.academy.internetshop.service.impl.RoleServiceImpl;
 import mate.academy.internetshop.service.impl.UserServiceImpl;
 import org.apache.log4j.Logger;
 
@@ -25,10 +30,12 @@ public class Factory {
     private static ItemDao itemDao;
     private static BucketDao bucketDao;
     private static OrderDao orderDao;
+    private static RoleDao roleDao;
     private static UserDao userDao;
     private static ItemService itemService;
     private static BucketService bucketService;
     private static OrderService orderService;
+    private static RoleService roleService;
     private static UserService userService;
     private static Connection connection;
     private static final Logger log = Logger.getLogger(Factory.class);
@@ -38,7 +45,8 @@ public class Factory {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/Shop?"
-                            + "user=root&password=me930528&serverTimezone=UTC");
+                            + "user=root&password=me930528"
+                            + "&serverTimezone=UTC&allowMultiQueries=true");
             log.info("Connected to database");
         } catch (ClassNotFoundException | SQLException exception) {
             log.error("Connection to database failed");
@@ -54,21 +62,28 @@ public class Factory {
 
     public static BucketDao getBucketDao() {
         if (bucketDao == null) {
-            bucketDao = new BucketDaoImpl();
+            bucketDao = new BucketDaoJdbcImpl(connection);
         }
         return bucketDao;
     }
 
     public static OrderDao getOrderDao() {
         if (orderDao == null) {
-            orderDao = new OrderDaoImpl();
+            orderDao = new OrderDaoJdbcImpl(connection);
         }
         return orderDao;
     }
 
+    public static RoleDao getRoleDao() {
+        if (roleDao == null) {
+            roleDao = new RoleDaoJdbcImpl(connection);
+        }
+        return roleDao;
+    }
+
     public static UserDao getUserDao() {
         if (userDao == null) {
-            userDao = new UserDaoImpl();
+            userDao = new UserDaoJdbcImpl(connection);
         }
         return userDao;
     }
@@ -92,6 +107,13 @@ public class Factory {
             orderService = new OrderServiceImpl();
         }
         return orderService;
+    }
+
+    public static RoleService getRoleService() {
+        if (roleService == null) {
+            roleService = new RoleServiceImpl();
+        }
+        return roleService;
     }
 
     public static UserService getUserService() {

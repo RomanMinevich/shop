@@ -4,6 +4,6 @@
     <title>Index</title>
   </head>
   <body>
-  Welcome!
+  Welcome to my shop!
   </body>
 </html>

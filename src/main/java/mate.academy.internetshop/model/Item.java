@@ -1,20 +1,13 @@
 package mate.academy.internetshop.model;
 
-import mate.academy.internetshop.generator.ItemIdGenerator;
+import java.util.Objects;
 
 public class Item {
-    private final Long id;
-    private final String name;
+    private Long id;
+    private String name;
     private Double price;
 
     public Item(String name, Double price) {
-        this.id = ItemIdGenerator.generateId();
-        this.name = name;
-        this.price = price;
-    }
-
-    public Item(Long id, String name, Double price) {
-        this.id = id;
         this.name = name;
         this.price = price;
     }
@@ -23,8 +16,16 @@ public class Item {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Double getPrice() {
@@ -36,7 +37,15 @@ public class Item {
     }
 
     @Override
-    public String toString() {
-        return "Item{name=" + name + ",price=" + price + '}';
+    public boolean equals(Object item) {
+        if (item instanceof Item) {
+            return id.equals(((Item)item).getId());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

@@ -1,25 +1,35 @@
 package mate.academy.internetshop.model;
 
-import mate.academy.internetshop.generator.RoleIdGenerator;
+import java.util.Objects;
 
 public class Role {
-    private final Long roleId;
-    private final RoleName roleName;
+    private final Long id;
+    private final String name;
 
-    public Role(String roleName) {
-        this.roleId = RoleIdGenerator.generateId();
-        this.roleName = RoleName.valueOf(roleName);
+    public Role(Long id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
-    public Long getRoleId() {
-        return roleId;
+    public Long getId() {
+        return id;
     }
 
-    public RoleName getRoleName() {
-        return roleName;
+    @Override
+    public boolean equals(Object role) {
+        if (role instanceof Role) {
+            return id.equals(((Role)role).getId());
+        }
+        return false;
     }
 
-    public enum RoleName {
-        USER, ADMIN
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

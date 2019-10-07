@@ -1,5 +1,7 @@
 package mate.academy.internetshop.model;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class User {
@@ -10,9 +12,11 @@ public class User {
     private String name;
     private String address;
     private String email;
+    private final Set<Role> roles;
 
     public User() {
         this.token = UUID.randomUUID().toString();
+        this.roles = new HashSet<>();
     }
 
     public Long getId() {
@@ -69,5 +73,9 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
     }
 }

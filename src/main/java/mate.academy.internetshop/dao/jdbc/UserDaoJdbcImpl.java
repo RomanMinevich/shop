@@ -9,6 +9,7 @@ import java.util.List;
 import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.exception.AuthenticationException;
 import mate.academy.internetshop.lib.Dao;
+import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import org.apache.log4j.Logger;
 
@@ -33,14 +34,21 @@ public class UserDaoJdbcImpl extends AbstractDao implements UserDao {
             statement.setString(5, user.getAddress());
             statement.setString(6, user.getEmail());
             statement.executeUpdate();
-            ///
-            user.setId(statement.getGeneratedKeys().getLong(1));
-            statement.executeUpdate("INSERT INTO users_roles (user_id) VALUE (?)");
-            statement.setLong(1, user.getId());
+            ResultSet resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                user.setId(resultSet.getLong(1));
+            }
         } catch (SQLException exception) {
             log.error("Couldn't create a user");
         }
-        return user;
+        try (PreparedStatement statement = connection.prepareStatement(
+                "INSERT INTO users_roles (user_id) VALUE (?)")) {
+            statement.setLong(1, user.getId());
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            log.error("Couldn't add a role to a user");
+        }
+        return setRoles(user);
     }
 
     @Override
@@ -61,7 +69,7 @@ public class UserDaoJdbcImpl extends AbstractDao implements UserDao {
             log.error("Couldn't get an item with id " + id);
         }
         user.setId(id);
-        return user;
+        return setRoles(user);
     }
 
     @Override
@@ -80,7 +88,7 @@ public class UserDaoJdbcImpl extends AbstractDao implements UserDao {
         } catch (SQLException exception) {
             log.error("Couldn't update a user");
         }
-        return user;
+        return setRoles(user);
     }
 
     @Override
@@ -147,5 +155,23 @@ public class UserDaoJdbcImpl extends AbstractDao implements UserDao {
             log.error("Couldn't get all users");
         }
         return list;
+    }
+
+    private User setRoles(User user) {
+        try (PreparedStatement statement = connection.prepareStatement(
+                "SELECT roles.id, roles.name FROM roles "
+                        + "INNER JOIN users_roles WHERE roles.id = users_roles.role_id "
+                        + "AND users_roles.user_id = ?")) {
+            statement.setLong(1, user.getId());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Role role = new Role(
+                        resultSet.getLong("id"), resultSet.getString("name"));
+                user.getRoles().add(role);
+            }
+        } catch (SQLException exception) {
+            log.error("Couldn't set roles for user with id " + user.getId());
+        }
+        return user;
     }
 }

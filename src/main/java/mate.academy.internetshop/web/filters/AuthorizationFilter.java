@@ -1,8 +1,5 @@
 package mate.academy.internetshop.web.filters;
 
-import static mate.academy.internetshop.model.Role.RoleName.ADMIN;
-import static mate.academy.internetshop.model.Role.RoleName.USER;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,21 +14,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Role;
+import mate.academy.internetshop.service.RoleService;
 import mate.academy.internetshop.service.UserService;
 import org.apache.log4j.Logger;
 
 @WebFilter("/servlet/*")
 public class AuthorizationFilter implements Filter {
     @Inject
+    private static RoleService roleService;
+    @Inject
     private static UserService userService;
-    private Map<String, Role.RoleName> urls = new HashMap<>();
+    private Map<String, Role> urls = new HashMap<>();
     private static final Logger log = Logger.getLogger(AuthorizationFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        urls.put("/servlet/bucket", USER);
-        urls.put("/servlet/orders", USER);
-        urls.put("/servlet/users", ADMIN);
+        urls.put("/servlet/bucket", roleService.getByName("USER"));
+        urls.put("/servlet/orders", roleService.getByName("USER"));
+        urls.put("/servlet/users", roleService.getByName("ADMIN"));
     }
 
     @Override
@@ -57,12 +57,12 @@ public class AuthorizationFilter implements Filter {
     }
 
     private boolean validate(Long userId, HttpServletRequest request) {
-        Role.RoleName validRoleName = urls.get(
+        Role validRole = urls.get(
                 request.getRequestURI().replace(request.getContextPath(), ""));
-        return validRoleName == null
-                || userService.getUserRoles(userId)
+        return validRole == null
+                || userService.get(userId).getRoles()
                 .stream()
-                .anyMatch(role -> role.getName().equals(validRoleName));
+                .anyMatch(role -> role.equals(validRole));
     }
 
     @Override

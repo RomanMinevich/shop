@@ -1,9 +1,7 @@
 package mate.academy.internetshop.service;
 
 import java.util.List;
-import java.util.Set;
 import mate.academy.internetshop.exception.AuthenticationException;
-import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 
 public interface UserService {
@@ -15,8 +13,6 @@ public interface UserService {
     User update(User user);
 
     User delete(Long id);
-
-    Set<Role> getUserRoles(Long id);
 
     User login(String phoneNumber, String password) throws AuthenticationException;
 

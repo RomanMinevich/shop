@@ -1,10 +1,8 @@
-package mate.academy.internetshop.dao;
+package mate.academy.internetshop.service;
 
 import mate.academy.internetshop.model.Role;
 
-public interface RoleDao {
+public interface RoleService {
 
     Role getByName(String name);
-
 }
-

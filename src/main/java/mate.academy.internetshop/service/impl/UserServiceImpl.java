@@ -1,13 +1,11 @@
 package mate.academy.internetshop.service.impl;
 
 import java.util.List;
-import java.util.Set;
-import mate.academy.internetshop.dao.RoleDao;
+
 import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.exception.AuthenticationException;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Service;
-import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
 
@@ -15,8 +13,6 @@ import mate.academy.internetshop.service.UserService;
 public class UserServiceImpl implements UserService {
     @Inject
     private static UserDao userDao;
-    @Inject
-    private static RoleDao roleDao;
 
     @Override
     public User create(User user) {
@@ -36,11 +32,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User delete(Long id) {
         return userDao.delete(id);
-    }
-
-    @Override
-    public Set<Role> getUserRoles(Long id) {
-        return roleDao.getUserRoles(id);
     }
 
     @Override

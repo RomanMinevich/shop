@@ -12,7 +12,7 @@
                     <th>ID</th>
                     <th>Name</th>
                     <th>Price</th>
-                    <th>Add to bucket</th>
+                    <th>Add to a bucket</th>
                 </tr>
                 <c:forEach var="item" items="${items}">
                     <tr>

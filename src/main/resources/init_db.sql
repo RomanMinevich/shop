@@ -13,7 +13,7 @@ INSERT INTO `Shop`.`items` (name, price) VALUES ('Herbs', 200);
 
 CREATE TABLE `Shop`.`roles` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL,
+  `name` ENUM('USER', 'ADMIN') NOT NULL,
   PRIMARY KEY (`id`));
 
 INSERT INTO `Shop`.`roles` (`name`) VALUES ('USER');

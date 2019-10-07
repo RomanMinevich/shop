@@ -1,5 +1,7 @@
 package mate.academy.internetshop.dao.jdbc;
 
+import static mate.academy.internetshop.util.HashUtil.hashPassword;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,14 +27,15 @@ public class UserDaoJdbcImpl extends AbstractDao implements UserDao {
     public User create(User user) {
         try (PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO users ("
-                        + "token, phone_number, password, name, adress, email) VALUES ("
-                        + "?, ?, ?, ?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS)) {
+                        + "token, salt, phone_number, password, name, adress, email) VALUES ("
+                        + "?, ?, ?, ?, ?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, user.getToken());
-            statement.setString(2, user.getPhoneNumber());
-            statement.setString(3, user.getPassword());
-            statement.setString(4, user.getName());
-            statement.setString(5, user.getAddress());
-            statement.setString(6, user.getEmail());
+            statement.setBytes(2, user.getSalt());
+            statement.setString(3, user.getPhoneNumber());
+            statement.setString(4, user.getPassword());
+            statement.setString(5, user.getName());
+            statement.setString(6, user.getAddress());
+            statement.setString(7, user.getEmail());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
@@ -60,6 +63,7 @@ public class UserDaoJdbcImpl extends AbstractDao implements UserDao {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 user.setToken(resultSet.getString("token"));
+                user.setSalt(resultSet.getBytes("salt"));
                 user.setPhoneNumber(resultSet.getString("phone_number"));
                 user.setName(resultSet.getString("name"));
                 user.setAddress(resultSet.getString("address"));
@@ -106,18 +110,27 @@ public class UserDaoJdbcImpl extends AbstractDao implements UserDao {
 
     @Override
     public User login(String phoneNumber, String password) throws AuthenticationException {
+        byte[] salt = null;
         Long id = null;
         try (PreparedStatement statement = connection.prepareStatement(
-                "SELECT id FROM users "
-                        + "WHERE phone_number = ? AND password = ?")) {
+                "SELECT salt FROM users WHERE phone_number = ?")) {
             statement.setString(1, phoneNumber);
-            statement.setString(2, password);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                salt = resultSet.getBytes("salt");
+            }
+        } catch (SQLException exception) {
+            log.error("Couldn't get salt for user with phone number " + phoneNumber);
+        }
+        try (PreparedStatement statement = connection.prepareStatement(
+                "SELECT id FROM users WHERE password = ?")) {
+            statement.setString(2, hashPassword(salt, password));
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 id = resultSet.getLong("id");
             }
         } catch (SQLException exception) {
-            log.error("Couldn't get user with phone number " + phoneNumber);
+            log.error("Couldn't get id for user with phone number " + phoneNumber);
         }
         if (id == null) {
             throw new AuthenticationException("Incorrect phone number or password");

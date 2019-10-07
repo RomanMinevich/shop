@@ -1,5 +1,7 @@
 package mate.academy.internetshop.model;
 
+import static mate.academy.internetshop.util.HashUtil.createSalt;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -7,6 +9,7 @@ import java.util.UUID;
 public class User {
     private Long id;
     private String token;
+    private byte[] salt;
     private String phoneNumber;
     private String password;
     private String name;
@@ -16,6 +19,7 @@ public class User {
 
     public User() {
         this.token = UUID.randomUUID().toString();
+        this.salt = createSalt();
         this.roles = new HashSet<>();
     }
 
@@ -33,6 +37,14 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public byte[] getSalt() {
+        return salt;
+    }
+
+    public void setSalt(byte[] salt) {
+        this.salt = salt;
     }
 
     public String getPhoneNumber() {

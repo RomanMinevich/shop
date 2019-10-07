@@ -133,3 +133,7 @@ CREATE TABLE `Shop`.`users_roles` (
 INSERT INTO `Shop`.`users_roles` (`user_id`, `role_id`) VALUES ('1', '1');
 INSERT INTO `Shop`.`users_roles` (`user_id`, `role_id`) VALUES ('2', '1');
 INSERT INTO `Shop`.`users_roles` (`user_id`, `role_id`) VALUES ('2', '2');
+
+ALTER TABLE `Shop`.`users`
+ADD COLUMN `salt` BLOB NOT NULL AFTER `token`,
+DROP INDEX `token_UNIQUE` ;

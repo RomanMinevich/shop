@@ -5,16 +5,15 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 public class HibernateUtil {
-    private static SessionFactory sessionFactory = buildSessionFactory();
+    private static SessionFactory sessionFactory;
     private static Logger log = Logger.getLogger(HibernateUtil.class);
 
-    private static SessionFactory buildSessionFactory() {
+    static  {
         try {
             sessionFactory = new Configuration().configure().buildSessionFactory();
-        } catch (Exception exception) {
+        } catch (ExceptionInInitializerError exception) {
             log.error("Couldn't build sessionFactory");
         }
-        return sessionFactory;
     }
 
     public static SessionFactory getSessionFactory() {

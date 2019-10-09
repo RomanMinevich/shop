@@ -1,5 +1,6 @@
 package mate.academy.internetshop.dao.hibernate;
 
+import java.util.ArrayList;
 import java.util.List;
 import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.lib.Dao;
@@ -25,15 +26,20 @@ public class ItemDaoHibernateImpl implements ItemDao {
             if (transaction != null) {
                 transaction.rollback();
             }
+            log.error("Couldn't create an item");
         }
         return item;
     }
 
     @Override
     public Item get(Long id) {
+        Item item = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.get(Item.class, id);
+            item = session.get(Item.class, id);
+        } catch (Exception exception) {
+            log.error("Couldn't get item with id " + id);
         }
+        return item;
     }
 
     @Override
@@ -47,6 +53,7 @@ public class ItemDaoHibernateImpl implements ItemDao {
             if (transaction != null) {
                 transaction.rollback();
             }
+            log.error("Couldn't update an item");
         }
         return item;
     }
@@ -63,12 +70,19 @@ public class ItemDaoHibernateImpl implements ItemDao {
             if (transaction != null) {
                 transaction.rollback();
             }
+            log.error("Couldn't delete an item with id " + id);
         }
         return item;
     }
 
     @Override
     public List<Item> getAll() {
-        return null;
+        List<Item> items = new ArrayList<>();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            items = session.createQuery("FROM Item").list();
+        } catch (Exception exception) {
+            log.error("Couldn't get all items");
+        }
+        return items;
     }
 }

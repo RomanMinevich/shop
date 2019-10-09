@@ -8,6 +8,10 @@ public class HibernateUtil {
     private static SessionFactory sessionFactory;
     private static Logger log = Logger.getLogger(HibernateUtil.class);
 
+    private HibernateUtil() {
+
+    };
+
     static  {
         try {
             sessionFactory = new Configuration().configure().buildSessionFactory();

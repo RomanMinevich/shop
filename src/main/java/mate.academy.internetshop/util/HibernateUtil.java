@@ -10,7 +10,7 @@ public class HibernateUtil {
 
     private HibernateUtil() {
 
-    };
+    }
 
     static  {
         try {

@@ -85,7 +85,7 @@ public class ItemDaoHibernateImpl implements ItemDao {
                 transaction.rollback();
             }
             log.error("Couldn't delete an item with id " + id);
-        }finally {
+        } finally {
             if (session != null) {
                 session.close();
             }

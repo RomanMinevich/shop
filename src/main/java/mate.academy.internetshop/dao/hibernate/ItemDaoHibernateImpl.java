@@ -29,7 +29,7 @@ public class ItemDaoHibernateImpl implements ItemDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            log.error("Couldn't create an item");
+            log.error("Couldn't create an item", exception);
         } finally {
             if (session != null) {
                 session.close();
@@ -44,7 +44,7 @@ public class ItemDaoHibernateImpl implements ItemDao {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             item = session.get(Item.class, id);
         } catch (HibernateException exception) {
-            log.error("Couldn't get an item with id " + id);
+            log.error("Couldn't get an item with id " + id, exception);
         }
         return item;
     }
@@ -62,7 +62,7 @@ public class ItemDaoHibernateImpl implements ItemDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            log.error("Couldn't update an item");
+            log.error("Couldn't update an item", exception);
         } finally {
             if (session != null) {
                 session.close();
@@ -84,7 +84,7 @@ public class ItemDaoHibernateImpl implements ItemDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            log.error("Couldn't delete an item with id " + id);
+            log.error("Couldn't delete an item with id " + id, exception);
         } finally {
             if (session != null) {
                 session.close();
@@ -99,7 +99,7 @@ public class ItemDaoHibernateImpl implements ItemDao {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             items = session.createQuery("from Item").list();
         } catch (HibernateException exception) {
-            log.error("Couldn't get a table of items");
+            log.error("Couldn't get a table of items", exception);
         }
         return items;
     }

@@ -58,8 +58,7 @@ public class OrderDaoJdbcImpl extends AbstractDao implements OrderDao {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Item item = new Item(resultSet.getString("name"),
-                        resultSet.getDouble("price"));
+                Item item = new Item();
                 item.setId(resultSet.getLong("id"));
                 items.add(item);
             }

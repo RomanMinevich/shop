@@ -1,8 +1,10 @@
 package mate.academy.internetshop.model;
 
+import static javax.persistence.EnumType.STRING;
+
 import java.util.Objects;
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,15 +16,15 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(columnDefinition = "VARCHAR", name = "name")
-    private RoleName roleName;
+    @Enumerated(STRING)
+    private RoleName name;
 
     public Role() {
     }
 
     public Role(Long id, String name) {
         this.id = id;
-        this.roleName = RoleName.valueOf(name);
+        this.name = RoleName.valueOf(name);
     }
 
     public Long getId() {
@@ -33,12 +35,12 @@ public class Role {
         this.id = id;
     }
 
-    public RoleName getRoleName() {
-        return roleName;
+    public RoleName getName() {
+        return name;
     }
 
-    public void setRoleName(String name) {
-        this.roleName =  RoleName.valueOf(name);;
+    public void setName(String name) {
+        this.name = RoleName.valueOf(name);
     }
 
     @Override
@@ -56,7 +58,7 @@ public class Role {
 
     @Override
     public String toString() {
-        return roleName.toString();
+        return name.toString();
     }
 
     public enum RoleName {

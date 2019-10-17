@@ -19,7 +19,7 @@ public class Injector {
 
     static {
         try {
-            classes.addAll(getClasses(PROJECT_MAIN_PACKAGE));
+            classes.addAll(getClasses());
         } catch (ClassNotFoundException | IOException exception) {
             log.error("Dependency injection failed" + exception);
         }
@@ -42,31 +42,32 @@ public class Injector {
         }
     }
 
-    private static List<Class> getClasses(String packageName)
+    private static List<Class> getClasses()
             throws ClassNotFoundException, IOException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         assert classLoader != null;
-        String path = packageName.replace('.', '/');
+        String path = Injector.PROJECT_MAIN_PACKAGE.replace('.', '/');
         Enumeration<URL> resources = classLoader.getResources(path);
-        List<File> dirs = new ArrayList<File>();
+        List<File> dirs = new ArrayList<>();
         while (resources.hasMoreElements()) {
             URL resource = resources.nextElement();
             dirs.add(new File(resource.getFile()));
         }
-        ArrayList<Class> classes = new ArrayList<Class>();
+        ArrayList<Class> classes = new ArrayList<>();
         for (File directory : dirs) {
-            classes.addAll(findClasses(directory, packageName));
+            classes.addAll(findClasses(directory, Injector.PROJECT_MAIN_PACKAGE));
         }
         return classes;
     }
 
     private static List<Class> findClasses(File directory, String packageName)
             throws ClassNotFoundException {
-        List<Class> classes = new ArrayList<Class>();
+        List<Class> classes = new ArrayList<>();
         if (!directory.exists()) {
             return classes;
         }
         File[] files = directory.listFiles();
+        assert files != null;
         for (File file : files) {
             if (file.isDirectory()) {
                 assert !file.getName().contains(".");

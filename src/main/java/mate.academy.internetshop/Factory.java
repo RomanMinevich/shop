@@ -48,7 +48,7 @@ public class Factory {
                             + "&serverTimezone=UTC&allowMultiQueries=true");
             log.info("Connected to database");
         } catch (ClassNotFoundException | SQLException exception) {
-            log.error("Connection to database failed");
+            log.error("Connection to database failed", exception);
         }
     }
 

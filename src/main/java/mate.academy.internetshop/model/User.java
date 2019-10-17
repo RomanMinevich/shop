@@ -1,5 +1,7 @@
 package mate.academy.internetshop.model;
 
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.EAGER;
 import static mate.academy.internetshop.util.HashUtil.createSalt;
 
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -33,11 +36,14 @@ public class User {
     private String name;
     private String address;
     private String email;
-    @ManyToMany
-    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"),
+    @OneToOne(mappedBy = "user", cascade = ALL, fetch = EAGER)
+    private Bucket bucket;
+    @ManyToMany(cascade = ALL,fetch = EAGER)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = EAGER)
     private List<Order> orders;
 
     public User() {
@@ -109,6 +115,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Bucket getBucket() {
+        return bucket;
+    }
+
+    public void setBucket(Bucket bucket) {
+        this.bucket = bucket;
     }
 
     public Set<Role> getRoles() {

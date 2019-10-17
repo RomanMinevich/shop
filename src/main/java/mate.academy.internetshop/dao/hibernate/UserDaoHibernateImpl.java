@@ -32,7 +32,7 @@ public class UserDaoHibernateImpl implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            log.error("Couldn't create a user");
+            log.error("Couldn't create a user", exception);
         } finally {
             if (session != null) {
                 session.close();
@@ -47,7 +47,7 @@ public class UserDaoHibernateImpl implements UserDao {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             user = session.get(User.class, id);
         } catch (HibernateException exception) {
-            log.error("Couldn't get user with id " + id);
+            log.error("Couldn't get user with id " + id, exception);
         }
         return user;
     }
@@ -65,7 +65,7 @@ public class UserDaoHibernateImpl implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            log.error("Couldn't update a user");
+            log.error("Couldn't update a user", exception);
         } finally {
             if (session != null) {
                 session.close();
@@ -87,7 +87,7 @@ public class UserDaoHibernateImpl implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            log.error("Couldn't delete a user with id " + id);
+            log.error("Couldn't delete a user with id " + id, exception);
         } finally {
             if (session != null) {
                 session.close();
@@ -114,8 +114,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public User getByToken(String token) {
         User user = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query query = session.createQuery(
-                    "from User where token = :token");
+            Query query = session.createQuery("from User where token = :token");
             query.setParameter("token", token);
             Iterator iterator = query.iterate();
             if (iterator.hasNext()) {
@@ -133,7 +132,7 @@ public class UserDaoHibernateImpl implements UserDao {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             users = session.createQuery("from User").list();
         } catch (HibernateException exception) {
-            log.error("Couldn't get all users");
+            log.error("Couldn't get all users", exception);
         }
         return users;
     }

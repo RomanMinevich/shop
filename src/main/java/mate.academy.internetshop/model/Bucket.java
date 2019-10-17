@@ -1,5 +1,9 @@
 package mate.academy.internetshop.model;
 
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.DETACH;
+import static javax.persistence.FetchType.EAGER;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
@@ -16,10 +20,10 @@ import javax.persistence.Table;
 public class Bucket {
     @Id
     private Long id;
-    @OneToOne
+    @OneToOne(cascade = DETACH)
     @MapsId
-    User user;
-    @ManyToMany
+    private User user;
+    @ManyToMany(cascade = ALL, fetch = EAGER)
     @JoinTable(name = "buckets_items", joinColumns = @JoinColumn(name = "bucket_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id"))
     private List<Item> items;

@@ -26,7 +26,7 @@ public class BucketDaoHibernateImpl implements BucketDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            log.error("Couldn't create a bucket");
+            log.error("Couldn't create a bucket", exception);
         } finally {
             if (session != null) {
                 session.close();
@@ -41,7 +41,7 @@ public class BucketDaoHibernateImpl implements BucketDao {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             bucket = session.get(Bucket.class, id);
         } catch (HibernateException exception) {
-            log.error("Couldn't get a bucket with id " + id);
+            log.error("Couldn't get a bucket with id " + id, exception);
         }
         return bucket;
     }
@@ -59,7 +59,7 @@ public class BucketDaoHibernateImpl implements BucketDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            log.error("Couldn't update a bucket");
+            log.error("Couldn't update a bucket", exception);
         } finally {
             if (session != null) {
                 session.close();
@@ -81,7 +81,7 @@ public class BucketDaoHibernateImpl implements BucketDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            log.error("Couldn't delete a bucket with id " + id);
+            log.error("Couldn't delete a bucket with id " + id, exception);
         } finally {
             if (session != null) {
                 session.close();

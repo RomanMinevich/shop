@@ -1,7 +1,8 @@
 package mate.academy.internetshop.service.impl;
 
-import java.util.List;
+import static mate.academy.internetshop.util.HashUtil.hashPassword;
 
+import java.util.List;
 import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.exception.AuthenticationException;
 import mate.academy.internetshop.lib.Inject;
@@ -36,7 +37,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User login(String phoneNumber, String password) throws AuthenticationException {
-        return userDao.login(phoneNumber, password);
+        User user = userDao.login(phoneNumber);
+        if (user != null) {
+            password = hashPassword(user.getSalt(), password);
+            if (user.getPassword().equals(password)) {
+                return user;
+            }
+        }
+        throw new AuthenticationException("Incorrect phone number or password");
     }
 
     @Override

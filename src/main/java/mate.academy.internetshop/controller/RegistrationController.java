@@ -44,7 +44,7 @@ public class RegistrationController extends HttpServlet {
                 user.getSalt(), request.getParameter("Password")));
         userService.create(user);
         log.info("User registered");
-        bucketService.create(new Bucket(user.getId()));
+        bucketService.create(new Bucket());
         log.info("Bucket created");
         response.sendRedirect(request.getContextPath() + "/login");
     }

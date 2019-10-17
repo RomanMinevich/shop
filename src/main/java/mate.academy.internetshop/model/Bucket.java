@@ -1,12 +1,31 @@
 package mate.academy.internetshop.model;
 
 import java.util.ArrayList;
-
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "buckets")
 public class Bucket {
-    private final Long id;
-    private final List<Item> items;
+    @Id
+    private Long id;
+    @OneToOne
+    @MapsId
+    User user;
+    @ManyToMany
+    @JoinTable(name = "buckets_items", joinColumns = @JoinColumn(name = "bucket_id"),
+            inverseJoinColumns = @JoinColumn(name = "item_id"))
+    private List<Item> items;
+
+    public Bucket() {
+    }
 
     public Bucket(Long id) {
         this.id = id;
@@ -17,7 +36,23 @@ public class Bucket {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public List<Item> getItems() {
         return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

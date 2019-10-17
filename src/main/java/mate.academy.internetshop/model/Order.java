@@ -1,11 +1,13 @@
 package mate.academy.internetshop.model;
 
 import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.DETACH;
+import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -17,12 +19,12 @@ import javax.persistence.Table;
 @Table(name = "orders")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
-    @ManyToOne(cascade = ALL)
+    @ManyToOne(cascade = DETACH)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
-    @ManyToMany(cascade = ALL)
+    @ManyToMany(cascade = ALL, fetch = EAGER)
     @JoinTable(name = "orders_items", joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id"))
     private List<Item> items;

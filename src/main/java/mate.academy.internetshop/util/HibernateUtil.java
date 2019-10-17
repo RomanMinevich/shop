@@ -6,20 +6,18 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 public class HibernateUtil {
-    private static SessionFactory sessionFactory = initSessionFactory();
+    private static SessionFactory sessionFactory;
     private static Logger log = Logger.getLogger(HibernateUtil.class);
 
     private HibernateUtil() {
     }
 
-    private static SessionFactory initSessionFactory() {
+    static {
         try {
-            sessionFactory =  new Configuration().configure().buildSessionFactory();
-        } catch (Exception exception) {
+            sessionFactory = new Configuration().configure().buildSessionFactory();
+        } catch (HibernateException exception) {
             log.error("Couldn't build sessionFactory", exception);
-            throw new RuntimeException(exception);
         }
-        return sessionFactory;
     }
 
     public static SessionFactory getSessionFactory() {

@@ -34,6 +34,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Item> getAllItems() {
-        return itemDao.getAll();
+        return itemDao.getAllItems();
     }
 }

@@ -2,6 +2,7 @@ package mate.academy.internetshop.model;
 
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.GenerationType.IDENTITY;
 import static mate.academy.internetshop.util.HashUtil.createSalt;
 
 import java.util.ArrayList;
@@ -12,20 +13,19 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id")
     private Long id;
     private String token;
     @Column(columnDefinition = "BLOB")
@@ -36,9 +36,7 @@ public class User {
     private String name;
     private String address;
     private String email;
-    @OneToOne(mappedBy = "user", cascade = ALL, fetch = EAGER)
-    private Bucket bucket;
-    @ManyToMany(cascade = ALL,fetch = EAGER)
+    @ManyToMany(cascade = ALL, fetch = EAGER)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -115,14 +113,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Bucket getBucket() {
-        return bucket;
-    }
-
-    public void setBucket(Bucket bucket) {
-        this.bucket = bucket;
     }
 
     public Set<Role> getRoles() {

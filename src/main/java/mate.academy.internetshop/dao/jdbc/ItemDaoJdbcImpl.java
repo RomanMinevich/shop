@@ -81,7 +81,7 @@ public class ItemDaoJdbcImpl extends AbstractDao implements ItemDao {
     }
 
     @Override
-    public List<Item> getAll() {
+    public List<Item> getAllItems() {
         List<Item> list = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(
                 "SELECT id FROM items")) {

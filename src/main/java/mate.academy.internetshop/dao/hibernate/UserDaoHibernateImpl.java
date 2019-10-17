@@ -19,13 +19,12 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public User create(User user) {
-        Long id = null;
         Session session = null;
         Transaction transaction = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.getTransaction();
-            id = (Long) session.save(user);
+            Long id = (Long) session.save(user);
             user.setId(id);
             transaction.commit();
         } catch (HibernateException exception) {
@@ -38,7 +37,7 @@ public class UserDaoHibernateImpl implements UserDao {
                 session.close();
             }
         }
-        return get(id);
+        return user;
     }
 
     @Override
@@ -71,7 +70,7 @@ public class UserDaoHibernateImpl implements UserDao {
                 session.close();
             }
         }
-        return get(user.getId());
+        return user;
     }
 
     @Override

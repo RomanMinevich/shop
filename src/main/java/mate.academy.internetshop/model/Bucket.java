@@ -6,22 +6,24 @@ import static javax.persistence.FetchType.EAGER;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "buckets")
 public class Bucket {
     @Id
+    @Column(name = "id")
     private Long id;
     @OneToOne(cascade = DETACH)
-    @MapsId
+    @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
     private User user;
     @ManyToMany(cascade = ALL, fetch = EAGER)
     @JoinTable(name = "buckets_items", joinColumns = @JoinColumn(name = "bucket_id"),
@@ -29,11 +31,7 @@ public class Bucket {
     private List<Item> items;
 
     public Bucket() {
-    }
-
-    public Bucket(Long id) {
-        this.id = id;
-        this.items = new ArrayList<>();
+        items = new ArrayList<>();
     }
 
     public Long getId() {
@@ -58,5 +56,13 @@ public class Bucket {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public void addItem(Item item) {
+        items.add(item);
+    }
+
+    public void removeItem(Item item) {
+        items.remove(item);
     }
 }

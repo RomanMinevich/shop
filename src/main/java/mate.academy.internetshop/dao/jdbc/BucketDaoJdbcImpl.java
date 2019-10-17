@@ -32,7 +32,7 @@ public class BucketDaoJdbcImpl extends AbstractDao implements BucketDao {
 
     @Override
     public Bucket get(Long id) {
-        Bucket bucket = new Bucket(id);
+        Bucket bucket = new Bucket();
         try (PreparedStatement statement = connection.prepareStatement(
                 "SELECT items.id, items.name, items.price FROM items "
                         + "INNER JOIN buckets_items "

@@ -1,26 +1,54 @@
 package mate.academy.internetshop.model;
 
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.GenerationType.IDENTITY;
 import static mate.academy.internetshop.util.HashUtil.createSalt;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id")
     private Long id;
     private String token;
+    @Column(columnDefinition = "BLOB")
     private byte[] salt;
+    @Column(name = "phone_number")
     private String phoneNumber;
     private String password;
     private String name;
     private String address;
     private String email;
-    private final Set<Role> roles;
+    @ManyToMany(cascade = ALL, fetch = EAGER)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+    @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = EAGER)
+    private List<Order> orders;
 
     public User() {
         this.token = UUID.randomUUID().toString();
         this.salt = createSalt();
         this.roles = new HashSet<>();
+        this.orders = new ArrayList<>();
     }
 
     public Long getId() {
@@ -89,5 +117,17 @@ public class User {
 
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }

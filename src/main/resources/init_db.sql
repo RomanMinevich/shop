@@ -139,3 +139,46 @@ ADD COLUMN `salt` BLOB NOT NULL AFTER `token`;
 
 ALTER TABLE `Shop`.`items`
 CHANGE COLUMN `id` `id` BIGINT(11) NOT NULL;
+
+ALTER TABLE `Shop`.`roles`
+CHANGE COLUMN `id` `id` BIGINT(11) NOT NULL ,
+CHANGE COLUMN `name` `name` VARCHAR(255) NOT NULL;
+
+ALTER TABLE `Shop`.`users`
+CHANGE COLUMN `id` `id` BIGINT(11) NOT NULL;
+
+ALTER TABLE `Shop`.`buckets`
+CHANGE COLUMN `id` `id` BIGINT(11) NOT NULL ;
+ALTER TABLE `Shop`.`buckets`
+ADD CONSTRAINT `id`
+  FOREIGN KEY (`id`)
+  REFERENCES `Shop`.`users` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+ALTER TABLE `Shop`.`buckets_items`
+ADD CONSTRAINT `bucket_id`
+  FOREIGN KEY (`bucket_id`)
+  REFERENCES `Shop`.`buckets` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+ADD CONSTRAINT `items_id_bucket`
+  FOREIGN KEY (`item_id`)
+  REFERENCES `Shop`.`Items` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+ALTER TABLE `Shop`.`orders`
+CHANGE COLUMN `user_id` `user_id` BIGINT(11) NOT NULL;
+
+ALTER TABLE `Shop`.`orders_items`
+ADD CONSTRAINT `item_id_order`
+  FOREIGN KEY (`item_id`)
+  REFERENCES `Shop`.`items` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+ADD CONSTRAINT `order_id`
+  FOREIGN KEY (`order_id`)
+  REFERENCES `Shop`.`orders` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;

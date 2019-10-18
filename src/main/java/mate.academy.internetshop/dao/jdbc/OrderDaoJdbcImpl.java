@@ -25,7 +25,7 @@ public class OrderDaoJdbcImpl extends AbstractDao implements OrderDao {
         try (PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO orders (user_id) VALUE (?)",
                 PreparedStatement.RETURN_GENERATED_KEYS)) {
-            statement.setLong(1, order.getUserId());
+            statement.setLong(1, order.getUser().getId());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
@@ -58,15 +58,14 @@ public class OrderDaoJdbcImpl extends AbstractDao implements OrderDao {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Item item = new Item(resultSet.getString("name"),
-                        resultSet.getDouble("price"));
+                Item item = new Item();
                 item.setId(resultSet.getLong("id"));
                 items.add(item);
             }
         } catch (SQLException exception) {
             log.error("Couldn't get an order with id " + id);
         }
-        Order order = new Order(userId, items);
+        Order order = new Order();
         order.setId(id);
         return order;
     }
@@ -97,7 +96,6 @@ public class OrderDaoJdbcImpl extends AbstractDao implements OrderDao {
         return order;
     }
 
-    @Override
     public List<Order> getUserOrders(Long userId) {
         List<Order> orders = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(
@@ -108,7 +106,7 @@ public class OrderDaoJdbcImpl extends AbstractDao implements OrderDao {
                 orders.add(get(resultSet.getLong("id")));
             }
         } catch (SQLException exception) {
-            log.error("Couldn't get orders for user " + userId);
+            log.error("Couldn't get orders for a user with id" + userId);
         }
         return orders;
     }

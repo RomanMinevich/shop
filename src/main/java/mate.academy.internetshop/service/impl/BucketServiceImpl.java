@@ -34,14 +34,14 @@ public class BucketServiceImpl implements BucketService {
     @Override
     public Bucket addItem(Long bucketId, Long itemId) {
         Bucket bucket = getByUserId(bucketId);
-        bucket.getItems().add(itemDao.get(itemId));
+        bucket.addItem(itemDao.get(itemId));
         return bucketDao.update(bucket);
     }
 
     @Override
     public Bucket removeItem(Long bucketId, Long itemId) {
         Bucket bucket = getByUserId(bucketId);
-        bucket.getItems().remove(itemDao.get(itemId));
+        bucket.removeItem(itemDao.get(itemId));
         return bucketDao.update(bucket);
     }
 

@@ -1,10 +1,8 @@
 package mate.academy.internetshop.dao.hibernate;
 
-import java.util.ArrayList;
-import java.util.List;
-import mate.academy.internetshop.dao.ItemDao;
+import mate.academy.internetshop.dao.BucketDao;
 import mate.academy.internetshop.lib.Dao;
-import mate.academy.internetshop.model.Item;
+import mate.academy.internetshop.model.Bucket;
 import mate.academy.internetshop.util.HibernateUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
@@ -12,69 +10,68 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 @Dao
-public class ItemDaoHibernateImpl implements ItemDao {
-    private static final Logger log = Logger.getLogger(ItemDaoHibernateImpl.class);
+public class BucketDaoHibernateImpl implements BucketDao {
+    private static final Logger log = Logger.getLogger(BucketDaoHibernateImpl.class);
 
     @Override
-    public Item create(Item item) {
+    public Bucket create(Bucket bucket) {
         Session session = null;
         Transaction transaction = null;
         Long id = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.getTransaction();
-            id = (Long) session.save(item);
-            item.setId(id);
+            id = (Long) session.save(bucket);
             transaction.commit();
         } catch (HibernateException exception) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            log.error("Couldn't create an item", exception);
+            log.error("Couldn't create a bucket", exception);
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-        item.setId(id);
-        return item;
+        bucket.setId(id);
+        return bucket;
     }
 
     @Override
-    public Item get(Long id) {
-        Item item = null;
+    public Bucket get(Long id) {
+        Bucket bucket = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            item = session.get(Item.class, id);
+            bucket = session.get(Bucket.class, id);
         } catch (HibernateException exception) {
-            log.error("Couldn't get an item with id " + id, exception);
+            log.error("Couldn't get a bucket with id " + id, exception);
         }
-        return item;
+        return bucket;
     }
 
     @Override
-    public Item update(Item item) {
+    public Bucket update(Bucket bucket) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.getTransaction();
-            session.update(item);
+            session.update(bucket);
             transaction.commit();
         } catch (HibernateException exception) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            log.error("Couldn't update an item", exception);
+            log.error("Couldn't update a bucket", exception);
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-        return item;
+        return bucket;
     }
 
     @Override
-    public Item delete(Long id) {
+    public Bucket delete(Long id) {
         Session session = null;
         Transaction transaction = null;
         try {
@@ -86,23 +83,12 @@ public class ItemDaoHibernateImpl implements ItemDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            log.error("Couldn't delete an item with id " + id, exception);
+            log.error("Couldn't delete a bucket with id " + id, exception);
         } finally {
             if (session != null) {
                 session.close();
             }
         }
         return null;
-    }
-
-    @Override
-    public List<Item> getAllItems() {
-        List<Item> items = new ArrayList<>();
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            items = session.createQuery("from Item").list();
-        } catch (HibernateException exception) {
-            log.error("Couldn't get a table of items", exception);
-        }
-        return items;
     }
 }

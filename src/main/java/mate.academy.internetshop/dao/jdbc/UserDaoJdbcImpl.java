@@ -1,7 +1,5 @@
 package mate.academy.internetshop.dao.jdbc;
 
-import static mate.academy.internetshop.util.HashUtil.hashPassword;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -109,22 +107,12 @@ public class UserDaoJdbcImpl extends AbstractDao implements UserDao {
     }
 
     @Override
-    public User login(String phoneNumber, String password) throws AuthenticationException {
+    public User login(String phoneNumber) throws AuthenticationException {
         byte[] salt = null;
         Long id = null;
         try (PreparedStatement statement = connection.prepareStatement(
-                "SELECT salt FROM users WHERE phone_number = ?")) {
+                "SELECT id FROM users WHERE phone_number = ?")) {
             statement.setString(1, phoneNumber);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                salt = resultSet.getBytes("salt");
-            }
-        } catch (SQLException exception) {
-            log.error("Couldn't get salt for user with phone number " + phoneNumber);
-        }
-        try (PreparedStatement statement = connection.prepareStatement(
-                "SELECT id FROM users WHERE password = ?")) {
-            statement.setString(1, hashPassword(salt, password));
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 id = resultSet.getLong("id");

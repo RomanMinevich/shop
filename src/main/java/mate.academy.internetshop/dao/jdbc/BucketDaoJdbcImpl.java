@@ -32,7 +32,7 @@ public class BucketDaoJdbcImpl extends AbstractDao implements BucketDao {
 
     @Override
     public Bucket get(Long id) {
-        Bucket bucket = new Bucket(id);
+        Bucket bucket = new Bucket();
         try (PreparedStatement statement = connection.prepareStatement(
                 "SELECT items.id, items.name, items.price FROM items "
                         + "INNER JOIN buckets_items "
@@ -41,8 +41,7 @@ public class BucketDaoJdbcImpl extends AbstractDao implements BucketDao {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Item item = new Item(resultSet.getString("name"),
-                        resultSet.getDouble("price"));
+                Item item = new Item();
                 item.setId(resultSet.getLong("id"));
                 bucket.getItems().add(item);
             }

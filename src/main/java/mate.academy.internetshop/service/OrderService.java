@@ -15,5 +15,4 @@ public interface OrderService {
     Order delete(Long id);
 
     List<Order> getUserOrders(Long userId);
-
 }

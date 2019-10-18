@@ -1,18 +1,46 @@
 package mate.academy.internetshop.model;
 
-import java.util.Objects;
+import static javax.persistence.EnumType.STRING;
+import static javax.persistence.GenerationType.IDENTITY;
 
+import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "roles")
 public class Role {
-    private final Long id;
-    private final String name;
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    private Long id;
+    @Enumerated(STRING)
+    private RoleName name;
+
+    public Role() {
+    }
 
     public Role(Long id, String name) {
         this.id = id;
-        this.name = name;
+        this.name = RoleName.valueOf(name);
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public RoleName getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = RoleName.valueOf(name);
     }
 
     @Override
@@ -30,6 +58,10 @@ public class Role {
 
     @Override
     public String toString() {
-        return name;
+        return name.toString();
+    }
+
+    public enum RoleName {
+        USER, ADMIN
     }
 }

@@ -17,10 +17,11 @@ public class BucketDaoHibernateImpl implements BucketDao {
     public Bucket create(Bucket bucket) {
         Session session = null;
         Transaction transaction = null;
+        Long id = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.getTransaction();
-            session.save(bucket);
+            id = (Long) session.save(bucket);
             transaction.commit();
         } catch (HibernateException exception) {
             if (transaction != null) {
@@ -32,6 +33,7 @@ public class BucketDaoHibernateImpl implements BucketDao {
                 session.close();
             }
         }
+        bucket.setId(id);
         return bucket;
     }
 

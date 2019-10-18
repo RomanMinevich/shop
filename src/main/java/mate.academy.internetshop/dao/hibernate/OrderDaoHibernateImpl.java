@@ -20,10 +20,11 @@ public class OrderDaoHibernateImpl implements OrderDao {
     public Order create(Order order) {
         Session session = null;
         Transaction transaction = null;
+        Long id = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.getTransaction();
-            Long id = (Long) session.save(order);
+            id = (Long) session.save(order);
             order.setId(id);
             transaction.commit();
         } catch (HibernateException exception) {
@@ -37,6 +38,7 @@ public class OrderDaoHibernateImpl implements OrderDao {
                 session.close();
             }
         }
+        order.setId(id);
         return order;
     }
 

@@ -19,10 +19,11 @@ public class ItemDaoHibernateImpl implements ItemDao {
     public Item create(Item item) {
         Session session = null;
         Transaction transaction = null;
+        Long id = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.getTransaction();
-            Long id = (Long) session.save(item);
+            id = (Long) session.save(item);
             item.setId(id);
             transaction.commit();
         } catch (HibernateException exception) {
@@ -35,6 +36,7 @@ public class ItemDaoHibernateImpl implements ItemDao {
                 session.close();
             }
         }
+        item.setId(id);
         return item;
     }
 

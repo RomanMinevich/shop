@@ -31,4 +31,5 @@ and Logout - for logging out.
 * log4j 1.2.17
 * maven-checkstyle-plugin
 
-[Internet-shop](/images/internetShop.jpg)
+<a name="Author"></a>Author
+[Roman Minevich](https://github.com/RomanMinevich)

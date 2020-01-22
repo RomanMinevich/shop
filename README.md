@@ -31,5 +31,5 @@ and Logout - for logging out.
 * log4j 1.2.17
 * maven-checkstyle-plugin
 
-<a name="Author"></a>Author
+# <a name="Author"></a>Author
 [Roman Minevich](https://github.com/RomanMinevich)

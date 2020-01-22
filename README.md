@@ -1,7 +1,7 @@
 This is a template of an E-STORE.
 
-
-It has login and registration forms. There are controllers for working with items, users, orders and buckets:
+# <a name="Features"></a>Features
+There are login and registration forms as well as controllers for working with items, users, orders and buckets:
 
 Inject - for injection mock data,
 
@@ -9,15 +9,18 @@ Registration - for registering new users,
 
 Login -  for user authentication and authorization,
 
-Users - for displaying a list of all app users. Available for users with an ADMIN role only,
+Users - for displaying a list of all app users 
+(available for users with an ADMIN role),
 
 Items - for displaying  all items in stock,
 
-Bucket - for displaying  user’s bucket. Available for users with a USER role only,
+Bucket - for displaying  user’s bucket
+(available for users with a USER role),
 
-Orders - for displaying user’s order history. Available for users with a USER role only,
+Orders - for displaying user’s order history
+(available for users with a USER role),
 
-Logout - for logging out.
+and Logout - for logging out.
 
 # <a name="Stack"></a>Stack
 * Java 11
@@ -27,3 +30,5 @@ Logout - for logging out.
 * jstl 1.2
 * log4j 1.2.17
 * maven-checkstyle-plugin
+
+[Internet-shop](/images/internetShop.jpg)
